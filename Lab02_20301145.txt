@@ -1,0 +1,179 @@
+class Node:
+    def __init__(self, data ,next):
+        self.data = data
+        self.next = None
+# 2
+class MyList:
+    def __init__(self, a=None):
+
+        self.head = None
+        tail = None
+
+        for i in range(0, len(a)):
+            newNode = Node(a[i], None)
+            if (self.head == None):
+                self.head = newNode  
+                tail = newNode  
+            else:
+                tail.next = newNode
+                tail = newNode
+
+    # 2
+    def showList(self):
+        string=""
+        if self.head is None:
+            print("empty list")
+        string += f"Singly Linked List:\n{self.head.data}"
+        start = self.head.next
+        while (start != None):
+            string += f" -> {start.data}"
+            start = start.next
+        return string
+
+    def isEmpty(self):
+        if self.head == None:
+            print("true")
+        else:
+            print("false")
+
+    def clear(self):
+        if self.head==None:
+            print("already")
+        self.head=None
+        return self.head
+
+    def insert(self, new_data):
+        new_node = Node(new_data, None)
+
+        if self.head is None:
+            self.head = new_node
+
+            return
+
+        # 5. Else traverse till the last node
+        last = self.head
+        while (last.next):
+            last = last.next
+
+        # 6. Change the next of last node
+        last.next = new_node
+        return self.head
+    def insert_at(self, newElement, position):
+        newNode = Node(newElement,None)
+        if (position < 0):
+            print("\nposition should be >= 1.")
+        elif (position == 0):
+            newNode.next = self.head
+            self.head = newNode
+        else:
+            temp = self.head
+            for i in range(1, position):
+                if (temp != None):
+                    temp = temp.next
+            if (temp != None):
+                newNode.next = temp.next
+                temp.next = newNode
+            else:
+                print("\nThe previous node is null.")
+
+
+
+
+    def deleteNode(self, data):
+        temp = self.head
+        prev = self.head
+        if temp.data == data:
+            if temp.next is None:
+                temp=None
+            else:
+                temp.data = temp.next.data
+                temp.next = temp.next.next
+            return
+        while temp.next is not None and temp.data != data:
+            prev = temp
+            temp = temp.next
+        if temp.next is None and temp.data != data:
+            print("Can't delete the node as it doesn't exist")
+        # If node is last node of the linked list
+        elif temp.next is None and temp.data == data:
+            prev.next = None
+        else:
+            prev.next = temp.next
+
+    def reverseList1(self):
+        new = None
+
+        if self.head is None:
+            return
+        after = self.head.next
+        while after != None:
+            self.head.next = new
+            new = self.head
+            self.head = after
+            after = after.next
+        self.head.next = new
+
+    def sortList(self):
+        # Node current will point to head
+        itr = self.head
+        index = None
+
+        if (self.head == None):
+            return
+        else:
+            while (itr != None):
+                # Node index will point to node next to current
+                index = itr.next
+
+                while (index != None):
+
+                    if (itr.data > index.data):
+                        temp = itr.data
+                        itr.data = index.data
+                        index.data = temp
+                    index = index.next
+                itr = itr.next
+
+    def sum(self):
+        itr = self.head
+        count = 0
+        while itr != None:
+            count += itr.data
+            itr = itr.next
+        print(count)
+
+    def rotate(self, shiftValue):
+        current = self.head
+        tail = self.head
+
+        # make tail point the last element
+        while tail.next is not None:
+            tail = tail.next
+
+        for i in range(shiftValue):
+            tail.next=current
+            current = current.next
+            tail = tail.next
+            tail.next=None
+
+       
+        self.head = current
+        return
+a=[1,2,3]
+g=MyList(a)
+print(g.showList())
+# g.isEmpty()
+# g.clear()
+g.insert(2)
+print(g.showList())
+g.insert_at(100,4)
+print(g.showList())
+g.deleteNode(3)
+print(g.showList())
+g.reverseList1()
+print(g.showList())
+g.sortList()
+print(g.showList())
+g.sum()
+g.rotate(2)
+print(g.showList())

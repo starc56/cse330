@@ -1,0 +1,272 @@
+# task1
+
+def minindex(a, start, end):
+    if start == end:
+        return start
+
+    k = minindex(a, start + 1, end)
+    if a[start] < a[k]: #recursion er maddome min index
+        return start
+    else:
+        return k
+
+
+def selectionrecursion(a, arraylength, index=0):
+    if index == arraylength:
+        return -1
+    else:
+        k = minindex(a, index, arraylength - 1)
+        if k > index:
+            a[k], a[index] = a[index], a[k] #swap kortase recursion er maddhome
+            return a #eta sorted array
+        selectionrecursion(a, arraylength, index + 1) #recursion er maddome index 1 barano hoitase
+
+
+arr = [3, 1, 5, 2, 7, 0]
+n = len(arr)
+print(selectionrecursion(arr, n))
+
+
+# ==============================================================================
+# task2
+def insertionrecursion(arr, arraylength):
+    if arraylength <= 1:
+        return
+    insertionrecursion(arr, arraylength - 1)
+    last = arr[arraylength - 1]
+    lastprev = arraylength - 2
+    while (lastprev >= 0 and arr[lastprev] > last):
+        arr[lastprev + 1] = arr[lastprev] #last prev er pore last raktase
+        lastprev = lastprev - 1 #last prev re last prev er age rakha hoitase
+        arr[lastprev + 1] = last #lastprev +
+    return arr
+
+
+arr = [1, 5, 100, 4, 8, 6, 3, 4, 5]
+arraylength = len(arr)
+print(insertionrecursion(arr, arraylength))
+
+
+# ==============================================================
+# task 3
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class MyList:
+    def __init__(self, data=None):
+        self.head = None
+        for i in data:
+            new_node = Node(i)
+            if self.head is None:
+                self.head = new_node
+            else:
+                n = self.head
+                while n.next is not None:
+                    n = n.next
+                n.next = new_node
+
+    def showList(self):
+        string = ""
+        if self.head is None:
+            print("empty list")
+        string += f"Singly Linked List:\n{self.head.data}"
+        start = self.head.next
+        while (start != None):
+            string += f" -> {start.data}"
+            start = start.next
+        print(string)
+
+    def bubbleSort(self):
+        if (self.head != None):
+            current = self.head
+            i = 1
+            while (i == 1):
+                i = 0
+                current = self.head
+                while (current != None and current.next != None):
+                    if (current.data > current.next.data):
+                        temp = current.data         #swap kora hoitase
+                        current.data = current.next.data
+                        current.next.data = temp
+                        i = 1  #i0 theka 1 hoise swap er por erprp abar loop ghurbe
+
+                    current = current.next
+
+        else:
+            print("Empty Linked list")
+
+
+a = [3, 6, 5, -2, 8, 2]
+x = MyList(a)
+x.showList()
+x.bubbleSort()
+x.showList()
+
+
+# ==========================================================
+# task 4
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+
+class MyList:
+    def __init__(self, data=None):
+        self.head = None
+        for i in data:
+            new_node = Node(i)
+            if self.head is None:
+                self.head = new_node
+            else:
+                n = self.head
+                while n.next is not None:
+                    n = n.next
+                n.next = new_node
+
+    def showList(self):
+        string = ""
+        if self.head is None:
+            print("empty list")
+        string += f"Singly Linked List:\n{self.head.data}"
+        start = self.head.next
+        while (start != None):
+            string += f" -> {start.data}"
+            start = start.next
+        print(string)
+
+    def selectionSort(self):
+
+        itr = self.head
+        while itr is not None:
+
+            min = itr
+            minindex = itr.next
+
+            while minindex is not None:
+                if (min.data > minindex.data):
+                    min = minindex  # choto hoile min e rakhmu
+
+
+
+                else:
+                    minindex = minindex.next  # na hoile loop agaibo
+
+                temp = itr.data
+                itr.data = min.data
+                min.data = temp
+                itr = itr.next
+                # puurata bar bar loop e ghurbo
+
+
+a = [3, 6, 5, -2, 8, 2]
+x = MyList(a)
+x.showList()
+x.selectionSort()
+x.showList()
+
+
+# ================================================
+# task 5
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+
+class MyList:
+    def __init__(self, data=None):
+        self.head = None
+        for i in data:
+            new_Node = Node(i)
+            if self.head is None:
+                self.head = self.tail = new_Node
+                self.head.prev = None
+                self.tail.next = None
+            else:
+                self.tail.next = new_Node
+                new_Node.prev = self.tail
+                self.tail = new_Node
+                self.tail.next = None
+
+    def showList(self):
+        string = ""
+        if self.head is None:
+            print("empty list")
+        string += f"Singly Linked List:\n{self.head.data}"
+        start = self.head.next
+        while (start != None):
+            string += f" -> {start.data}"
+            start = start.next
+        print(string)
+
+    def swap(self, first, second):
+        value = first.data
+        first.data = second.data
+        second.data = value
+
+    def insertionSort(self):
+        front = self.head
+        back = None
+        while (front != None):
+            back = front.next
+            while (back != None and back.prev != None and back.data < back.prev.data):
+                self.swap(back, back.prev)
+                back = back.prev
+            front = front.next
+
+
+a = [2436, 4626, 1, 6, 724, 44]
+d = MyList(a)
+d.showList()
+d.insertionSort()
+d.showList()
+
+
+# ===========================================
+# task6
+def binary(arr, low, high, x):
+    while high > low:
+        mid = (high + low) // 2
+        if arr[mid] == x:
+            return mid
+        elif arr[mid] > x:
+            return binary(arr, low, mid - 1, x)
+
+        else:
+            return binary(arr, mid + 1, high, x)
+    else:
+        return -1
+
+
+arr = [2, 3, 4, 10, 40]
+x = 10
+result = binary(arr, 0, len(arr) - 1, x)
+
+if result != -1:
+    print(result)
+else:
+    print("not present")
+
+# =======================================================
+# task 7
+
+array = [1, 1]
+def fibonacci(n):
+    if n <= 0:
+        print("Incorrect input")
+    elif n <= len(array):
+        return array[n-1]
+    else:
+        fib = fibonacci(n - 1) + fibonacci(n - 2)
+        array.append(fib)#array tr raktasi fib gula
+        return fib
+
+n = 5
+print(fibonacci(n))

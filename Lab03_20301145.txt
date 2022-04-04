@@ -1,0 +1,146 @@
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+        self.previous = None
+
+
+class DoublyList:
+    def __init__(self,a=None):
+
+        previous=None
+
+        self.head = None
+        tail=None
+
+
+        for i in range(0, len(a)):
+            newNode=Node(a[i])
+            if self.head==None:
+                self.head=newNode
+                tail=self.head
+                self.getCount()
+            else:
+                tail.next=newNode
+                tail.next.previous=tail
+                tail=tail.next
+                self.getCount()
+
+    def getCount(self):
+        head = self.head  
+        count = 0  
+
+        
+        while (head):
+            count += 1
+            head = head.next
+        return count
+
+
+    def showlist(self):
+        string = ""
+
+        if (self.head == None):
+            string += "Doubly Linked List Empty"
+            return string
+
+        string +=f"{self.head.data}"
+        start = self.head.next
+        while (start != None):
+            string += f" -> {start.data}"
+            start = start.next
+        return string
+
+    def insert(self, data):
+        if self.head == None:
+            self.head = Node(data)
+            tail = self.head
+            self.getCount()
+            return
+
+        tail.next = Node(data)
+        tail.next.previous = tail
+        tail = tail.next
+        self.getCount()
+
+    def insert(self, data, index):
+        if (index > self.getCount()) | (index < 0):
+            raise ValueError(f"Index out of range: {index}, size: {self.getCount()}")
+
+        if (index == 0):
+            self.head.previous = Node(data)
+            self.head.previous.next = self.head
+            self.head = self.head.previous
+            self.getCount()
+            return
+
+        start = self.head
+        for _ in range(index):
+            start = start.next
+        start.previous.next = Node(data)
+        start.previous.next.previous = start.previous
+        start.previous.next.next = start
+        start.previous = start.previous.next
+        self.getCount()
+        return
+
+
+    def remove(self, index):
+        tail=None
+        if (index >= self.getCount()) or (index < 0):
+            raise ValueError(f"Index out of range: {index}, size: {self.getCount()}")
+
+        if index == 0:
+            self.head = self.head.next
+            self.head.previous = None
+            return
+
+        start = self.head
+        for i in range(index):
+            start = start.next
+        start.previous.next, start.next.previous = start.next, start.previous
+        self.getCount()
+        return
+
+    def removeKey(self, value):
+        tail=None
+        current = self.head
+        node_deleted = False
+        if current is None:
+            node_deleted = False
+
+        elif current.data == value:
+            self.head = current.next
+            self.head.previous = None
+            node_deleted = True
+
+        else:
+            while current:
+                if current.data == value:
+                    current.previous.next = current.next
+                    current.next.previous = current.previous
+                    node_deleted = True
+                current = current.next
+
+        if node_deleted:
+            self.getCount()
+        else:
+            print('Element is not found..! ')
+
+
+
+
+a=[1,2,3,4]
+nums = DoublyList(a)
+
+print(nums.showlist())
+nums.insert(7000, 0)
+nums.insert(8000, 3)
+nums.insert(2190, 5)
+print(nums.showlist())
+nums.remove(1)
+print(nums.showlist())
+nums.removeKey(200)
+print(nums.showlist())
+nums.removeKey(7000)
+print(nums.showlist())
